@@ -1,234 +1,100 @@
 /*
-===============================================================================
-Stored Procedure: Load Bronze Layer
-===============================================================================
+=============================================================
+Create Bronze Layer Tables
+=============================================================
 Script Purpose:
-    This stored procedure loads raw CRM and ERP data from CSV files
-    into the Bronze layer tables.
+    This script creates all Bronze layer tables required
+    for the Data Warehouse project.
 
-Workflow:
-    1. Record the procedure start time.
-    2. Truncate each Bronze table.
-    3. Load data from staged CSV files using COPY INTO.
-    4. Calculate execution time for each table.
-    5. Calculate the total execution time.
-    6. Return a summary of the load process.
+    Tables Created:
+        - crm_cust_info
+        - crm_prd_info
+        - crm_sales_details
+        - erp_loc_a101
+        - erp_cust_az12
+        - erp_px_cat_g1v2
 
-Source Files:
-    - cust_info.csv
-    - prd_info.csv
-    - sales_details.csv
-    - CUST_AZ12.csv
-    - LOC_A101.csv
-    - PX_CAT_G1V2.csv
-
-Target Schema:
+Schema:
     bronze
-
-
-===============================================================================
+=============================================================
 */
 
-CREATE OR REPLACE PROCEDURE bronze.load_bronze()
-RETURNS STRING
-LANGUAGE SQL
-EXECUTE AS CALLER
-AS
-$$
-DECLARE
-    start_time TIMESTAMP_NTZ;
-    end_time TIMESTAMP_NTZ;
-    total_time NUMBER;
+-- ==========================================================
+-- CRM Customer Information
+-- ==========================================================
 
-    crm_cust_start_time TIMESTAMP_NTZ;
-    crm_cust_end_time TIMESTAMP_NTZ;
-    crm_cust_duration NUMBER;
+CREATE OR REPLACE TABLE bronze.crm_cust_info (
+    cst_id INT,
+    cst_key VARCHAR(50),
+    cst_firstname VARCHAR(50),
+    cst_lastname VARCHAR(50),
+    cst_material_status VARCHAR(50),
+    cst_gndr VARCHAR(50),
+    cst_create_date DATE
+);
 
-    crm_prd_start_time TIMESTAMP_NTZ;
-    crm_prd_end_time TIMESTAMP_NTZ;
-    crm_prd_duration NUMBER;
+-- ==========================================================
+-- CRM Product Information
+-- ==========================================================
 
-    crm_sales_start_time TIMESTAMP_NTZ;
-    crm_sales_end_time TIMESTAMP_NTZ;
-    crm_sales_duration NUMBER;
+CREATE OR REPLACE TABLE bronze.crm_prd_info (
+    prd_id INT,
+    prd_key VARCHAR(50),
+    prd_nm VARCHAR(50),
+    prd_cost INT,
+    prd_line VARCHAR(50),
+    prd_start_dt TIMESTAMP_NTZ,
+    prd_end_dt TIMESTAMP_NTZ
+);
 
-    erp_cust_start_time TIMESTAMP_NTZ;
-    erp_cust_end_time TIMESTAMP_NTZ;
-    erp_cust_duration NUMBER;
+-- ==========================================================
+-- CRM Sales Details
+-- ==========================================================
 
-    erp_loc_start_time TIMESTAMP_NTZ;
-    erp_loc_end_time TIMESTAMP_NTZ;
-    erp_loc_duration NUMBER;
+CREATE OR REPLACE TABLE bronze.crm_sales_details (
+    sls_ord_num VARCHAR(50),
+    sls_prd_key VARCHAR(50),
+    sls_cust_id INT,
+    sls_order_dt INT,
+    sls_ship_dt INT,
+    sls_due_dt INT,
+    sls_sales INT,
+    sls_quantity INT,
+    sls_price INT
+);
 
-    erp_px_start_time TIMESTAMP_NTZ;
-    erp_px_end_time TIMESTAMP_NTZ;
-    erp_px_duration NUMBER;
+-- ==========================================================
+-- ERP Location Information
+-- ==========================================================
 
-BEGIN
-    start_time := CURRENT_TIMESTAMP();
-    ----------------------------------------------------------
-    -- CRM CUSTOMER
-    ----------------------------------------------------------
+CREATE OR REPLACE TABLE bronze.erp_loc_a101 (
+    cid VARCHAR(50),
+    cntry VARCHAR(50)
+);
 
-    crm_cust_start_time := CURRENT_TIMESTAMP();
+-- ==========================================================
+-- ERP Customer Information
+-- ==========================================================
 
-    TRUNCATE TABLE bronze.crm_cust_info;
+CREATE OR REPLACE TABLE bronze.erp_cust_az12 (
+    cid VARCHAR(50),
+    bdate DATE,
+    gen VARCHAR(50)
+);
 
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.crm_cust_info
-        FROM @bronze_stage/cust_info.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
+-- ==========================================================
+-- ERP Product Category Information
+-- ==========================================================
 
-    crm_cust_end_time := CURRENT_TIMESTAMP();
+CREATE OR REPLACE TABLE bronze.erp_px_cat_g1v2 (
+    id VARCHAR(50),
+    cat VARCHAR(50),
+    subcat VARCHAR(50),
+    maintenance VARCHAR(50)
+);
 
-    crm_cust_duration := DATEDIFF(
-        'second',
-        crm_cust_start_time,
-        crm_cust_end_time
-    );
+-- ==========================================================
+-- Verify Tables
+-- ==========================================================
 
-
-    ----------------------------------------------------------
-    -- CRM PRODUCT
-    ----------------------------------------------------------
-
-    crm_prd_start_time := CURRENT_TIMESTAMP()::TIMESTAMP_NTZ;
-
-    TRUNCATE TABLE bronze.crm_prd_info;
-
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.crm_prd_info
-        FROM @bronze_stage/prd_info.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
-
-    crm_prd_end_time := CURRENT_TIMESTAMP()::TIMESTAMP_NTZ;
-
-    crm_prd_duration := DATEDIFF(
-        'second',
-        crm_prd_start_time,
-        crm_prd_end_time
-    );
-
-
-    ----------------------------------------------------------
-    -- CRM SALES
-    ----------------------------------------------------------
-
-    crm_sales_start_time := CURRENT_TIMESTAMP();
-
-    TRUNCATE TABLE bronze.crm_sales_details;
-
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.crm_sales_details
-        FROM @bronze_stage/sales_details.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
-
-    crm_sales_end_time := CURRENT_TIMESTAMP();
-
-    crm_sales_duration := DATEDIFF(
-        'second',
-        crm_sales_start_time,
-        crm_sales_end_time
-    );
-
-
-    ----------------------------------------------------------
-    -- ERP CUSTOMER
-    ----------------------------------------------------------
-
-    erp_cust_start_time := CURRENT_TIMESTAMP();
-
-    TRUNCATE TABLE bronze.erp_cust_az12;
-
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.erp_cust_az12
-        FROM @bronze_stage/CUST_AZ12.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
-
-    erp_cust_end_time := CURRENT_TIMESTAMP();
-
-    erp_cust_duration := DATEDIFF(
-        'second',
-        erp_cust_start_time,
-        erp_cust_end_time
-    );
-
-
-    ----------------------------------------------------------
-    -- ERP LOCATION
-    ----------------------------------------------------------
-
-    erp_loc_start_time := CURRENT_TIMESTAMP();
-
-    TRUNCATE TABLE bronze.erp_loc_a101;
-
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.erp_loc_a101
-        FROM @bronze_stage/LOC_A101.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
-
-    erp_loc_end_time := CURRENT_TIMESTAMP();
-
-    erp_loc_duration := DATEDIFF(
-        'second',
-        erp_loc_start_time,
-        erp_loc_end_time
-    );
-
-
-    ----------------------------------------------------------
-    -- ERP PRODUCT CATEGORY
-    ----------------------------------------------------------
-
-    erp_px_start_time := CURRENT_TIMESTAMP();
-
-    TRUNCATE TABLE bronze.erp_px_cat_g1v2;
-
-    EXECUTE IMMEDIATE '
-        COPY INTO bronze.erp_px_cat_g1v2
-        FROM @bronze_stage/PX_CAT_G1V2.csv
-        FILE_FORMAT=(FORMAT_NAME=csv_format)
-        FORCE=TRUE
-    ';
-
-    erp_px_end_time := CURRENT_TIMESTAMP();
-
-    erp_px_duration := DATEDIFF(
-        'second',
-        erp_px_start_time,
-        erp_px_end_time
-    );
-
-    end_time := CURRENT_TIMESTAMP();
-
-    total_time := DATEDIFF('second',start_time,end_time);
-
-
-    RETURN
-'Bronze Layer Loaded Successfully
-
-CRM Customer : ' || crm_cust_duration || ' sec
-CRM Product  : ' || crm_prd_duration || ' sec
-CRM Sales    : ' || crm_sales_duration || ' sec
-ERP Customer : ' || erp_cust_duration || ' sec
-ERP Location : ' || erp_loc_duration || ' sec
-ERP Category : ' || erp_px_duration || ' sec
-TOTAL TIME   : ' || total_time ||' sec';
-
-EXCEPTION
-    WHEN OTHER THEN
-        RETURN 'Error Code: ' || SQLCODE ||
-               ' Error Message: ' || SQLERRM;
-
-END;
-$$;
+SHOW TABLES IN SCHEMA bronze;DATAWAREHOUSE.BRONZE.CRM_CUST_INFO
