@@ -121,7 +121,10 @@ The Gold Layer provides a business-ready Star Schema for reporting and dashboard
 
 data-warehouse-project/
 │
-├── datasets/                     # Source CSV datasets
+├── datasets/
+│   ├── source_crm/
+│   ├── source_erp/
+│   └── *.csv
 │
 ├── docs/
 │   ├── data_architecture.png
@@ -130,42 +133,27 @@ data-warehouse-project/
 │   ├── data_models.drawio
 │   ├── etl.drawio
 │   ├── data_catalog.md
-│   └── naming-conventions.md
+│   └── naming_conventions.md
 │
 ├── scripts/
 │   ├── bronze/
+│   │   ├── ddl_bronze.sql
+│   │   └── proc_load_bronze.sql
+│   │
 │   ├── silver/
+│   │   ├── ddl_silver.sql
+│   │   └── proc_load_silver.sql
+│   │
 │   └── gold/
+│       └── ddl_gold_views.sql
 │
 ├── tests/
+│   └── quality_checks.sql
 │
 ├── README.md
 ├── LICENSE
 └── .gitignore
 
-⸻
-
-📈 Project Workflow
-
-CSV Files
-      │
-      ▼
- Bronze Layer
-(Raw Data Loading)
-      │
-      ▼
- Silver Layer
-(Data Cleaning &
-Transformation)
-      │
-      ▼
- Gold Layer
-(Fact & Dimension Views)
-      │
-      ▼
-Analytics & Reporting
-
-⸻
 
 📚 Concepts Covered
 
