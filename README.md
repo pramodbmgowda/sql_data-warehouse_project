@@ -1,125 +1,129 @@
-Data Warehouse and Analytics Project
+# 🚀 Data Warehouse and Analytics Project using Snowflake
 
-Welcome to the Data Warehouse and Analytics Project repository! 🚀
+Welcome to the **Data Warehouse and Analytics Project** repository!
 
-This project demonstrates a complete end-to-end data warehousing solution using Snowflake. It covers the entire data engineering lifecycle—from ingesting raw data to building a business-ready analytical data model following the Medallion Architecture (Bronze, Silver, and Gold).
+This project demonstrates the design and implementation of a modern cloud-based data warehouse using **Snowflake**. It follows the **Medallion Architecture (Bronze, Silver, and Gold)** to ingest, transform, and model ERP and CRM datasets into a business-ready analytical data model.
 
-This repository serves as a portfolio project showcasing modern data engineering, ETL development, data modeling, and analytics best practices.
+The project showcases industry best practices in **Data Engineering**, **ETL Development**, **Data Modeling**, and **SQL Analytics**.
 
-⸻
+---
 
-🏗️ Data Architecture
+# 🏗️ Data Architecture
 
-The project follows the Medallion Architecture, consisting of three layers:
+The project follows the **Medallion Architecture**, consisting of three layers:
 
-🥉 Bronze Layer
+![Data Architecture](docs/data_architecture.png)
 
-* Stores raw data exactly as received from the source systems.
-* Data is loaded from CSV files into Snowflake.
-* No transformations are applied.
+### 🥉 Bronze Layer
+- Stores raw ERP and CRM data.
+- Loads CSV files into Snowflake.
+- No transformations are applied.
 
-🥈 Silver Layer
+### 🥈 Silver Layer
+- Cleans and validates data.
+- Removes duplicates.
+- Standardizes formats.
+- Performs business transformations.
+- Improves overall data quality.
 
-* Cleanses and standardizes raw data.
-* Removes duplicates.
-* Resolves data quality issues.
-* Performs data transformations and normalization.
+### 🥇 Gold Layer
+- Creates business-ready analytical views.
+- Implements a Star Schema.
+- Contains Fact and Dimension Views.
+- Optimized for dashboards and reporting.
 
-🥇 Gold Layer
+---
 
-* Contains business-ready data.
-* Implements a Star Schema with Fact and Dimension Views.
-* Optimized for reporting, dashboards, and analytics.
+# 📖 Project Overview
 
-⸻
+This project covers the complete lifecycle of building a cloud data warehouse.
 
-📖 Project Overview
+### ✅ Data Architecture
+Designing a scalable cloud data warehouse using Medallion Architecture.
 
-This project includes:
+### ✅ ETL Pipeline
+Building ETL pipelines for loading CRM and ERP data into Snowflake.
 
-✅ Data Architecture
+### ✅ Data Cleaning
+Handling missing values, duplicates, invalid records, and inconsistent formats.
 
-Designing a modern cloud data warehouse using the Medallion Architecture.
+### ✅ Data Modeling
+Building analytical Fact and Dimension views using Star Schema.
 
-✅ ETL Pipelines
+### ✅ Analytics
+Writing SQL queries to generate meaningful business insights.
 
-Building Extract, Transform, and Load (ETL) pipelines to ingest and process CRM and ERP datasets.
+---
 
-✅ Data Modeling
+# 🎯 Skills Demonstrated
 
-Creating Fact and Dimension models optimized for analytical workloads.
+- Snowflake
+- SQL
+- Data Warehousing
+- ETL Development
+- Data Engineering
+- Data Modeling
+- Star Schema Design
+- Data Cleaning
+- Data Transformation
+- SQL Analytics
+- Window Functions
+- Views
+- Business Intelligence
 
-✅ Analytics & Reporting
+---
 
-Developing SQL queries to generate business insights from the warehouse.
+# 🛠️ Tools & Technologies
 
-⸻
+| Tool | Purpose |
+|------|---------|
+| Snowflake | Cloud Data Warehouse |
+| Snowsight | SQL Development & Query Execution |
+| SQL | ETL, Data Transformation & Analytics |
+| Git | Version Control |
+| GitHub | Source Code Management |
+| Draw.io | Data Architecture & Data Modeling |
+| CSV Files | Source Data |
 
-🎯 Skills Demonstrated
+---
 
-* Snowflake
-* SQL Development
-* Data Warehousing
-* ETL Pipeline Development
-* Data Engineering
-* Data Modeling
-* Data Analytics
-* Star Schema Design
-* Data Cleaning & Transformation
+# 🚀 Project Requirements
 
-⸻
+## Objective
 
-🛠️ Tools & Technologies
+Develop a modern cloud data warehouse using **Snowflake** to consolidate ERP and CRM sales data into a single analytical platform.
 
-Everything used in this project is free.
+## Specifications
 
-Tool	Purpose
-Snowflake	Cloud Data Warehouse
-Snowsight	Snowflake SQL Editor and Management Interface
-Git & GitHub	Version Control
-Draw.io	Data Architecture & Data Modeling
-CSV Files	Source Data
-SQL	ETL, Data Modeling & Analytics
+- Import ERP and CRM datasets.
+- Load raw CSV files into the Bronze layer.
+- Clean and standardize data in the Silver layer.
+- Build analytical views in the Gold layer.
+- Design a Star Schema.
+- Create business-ready datasets for reporting.
+- Document the complete data model.
 
-⸻
+---
 
-🚀 Project Requirements
+# 📊 Analytics & Reporting
 
-Building the Data Warehouse
+The Gold Layer provides business-ready data for analytical reporting.
 
-Objective
+The project includes SQL analysis on:
 
-Develop a modern cloud data warehouse using Snowflake to consolidate CRM and ERP sales data into a single analytical platform.
+- Customer Behavior
+- Product Performance
+- Sales Trends
+- Revenue Analysis
+- Customer Segmentation
+- Business KPIs
 
-Specifications
+---
 
-* Import data from ERP and CRM source systems.
-* Load CSV files into the Bronze layer.
-* Clean and standardize data in the Silver layer.
-* Build analytical dimension and fact views in the Gold layer.
-* Focus only on the latest available data.
-* Document the data model for analytics and reporting.
+# 📂 Repository Structure
 
-⸻
-
-📊 Analytics & Reporting
-
-Develop SQL analytics to provide insights into:
-
-* Customer Behavior
-* Product Performance
-* Sales Trends
-* Revenue Analysis
-* Business KPIs
-
-The Gold Layer provides a business-ready Star Schema for reporting and dashboards.
-
-⸻
-
-
-📂 Repository Structure
-
-data-warehouse-project/
+```text
+sql_data-warehouse_project/
 │
 ├── datasets/
 │   ├── source_crm/
@@ -128,10 +132,9 @@ data-warehouse-project/
 │
 ├── docs/
 │   ├── data_architecture.png
-│   ├── data_architecture.drawio
+│   ├── architecture.drawio
+│   ├── integration_model.drawio
 │   ├── data_flow.drawio
-│   ├── data_models.drawio
-│   ├── etl.drawio
 │   ├── data_catalog.md
 │   └── naming_conventions.md
 │
@@ -145,7 +148,8 @@ data-warehouse-project/
 │   │   └── proc_load_silver.sql
 │   │
 │   └── gold/
-│       └── ddl_gold_views.sql
+│       ├── ddl_gold.sql
+│       └── analytics.sql
 │
 ├── tests/
 │   └── quality_checks.sql
@@ -153,47 +157,109 @@ data-warehouse-project/
 ├── README.md
 ├── LICENSE
 └── .gitignore
+```
 
+---
 
-📚 Concepts Covered
+# 🔄 Data Pipeline
 
-* Medallion Architecture
-* Snowflake Data Warehouse
-* ETL Pipeline Design
-* Data Cleaning
-* Data Transformation
-* Data Modeling
-* Fact Tables
-* Dimension Tables
-* Star Schema
-* SQL Window Functions
-* Views
-* Analytical SQL
-* Data Quality Checks
+```text
+              CSV Files
+                  │
+                  ▼
+          Bronze Layer
+      (Raw Data Ingestion)
+                  │
+                  ▼
+          Silver Layer
+   (Cleaning & Transformation)
+                  │
+                  ▼
+           Gold Layer
+ (Fact & Dimension Views)
+                  │
+                  ▼
+      Analytics & Reporting
+```
 
-⸻
+---
 
-📄 License
+# ⭐ Medallion Architecture
 
-This project is licensed under the MIT License.
+```
+                +--------------------+
+                |    Source Data     |
+                | ERP & CRM (CSV)    |
+                +---------+----------+
+                          |
+                          ▼
+                +--------------------+
+                |   Bronze Layer     |
+                |   Raw Data Load    |
+                +---------+----------+
+                          |
+                          ▼
+                +--------------------+
+                |   Silver Layer     |
+                | Data Cleaning      |
+                | Standardization    |
+                | Validation         |
+                +---------+----------+
+                          |
+                          ▼
+                +--------------------+
+                |    Gold Layer      |
+                | Fact Views         |
+                | Dimension Views    |
+                +---------+----------+
+                          |
+                          ▼
+                +--------------------+
+                | Business Analytics |
+                | Dashboards         |
+                | SQL Reports        |
+                +--------------------+
+```
 
-⸻
+---
 
-👨‍💻 Author
+# 📚 Concepts Covered
 
-Pramod B M
+- Snowflake
+- Cloud Data Warehouse
+- Medallion Architecture
+- ETL Pipeline
+- Data Engineering
+- Data Cleaning
+- Data Transformation
+- Star Schema
+- Fact Tables
+- Dimension Tables
+- SQL Window Functions
+- Analytical SQL
+- Views
+- Data Quality
+- Business Intelligence
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+# 👨‍💻 Author
+
+**Pramod B M**
 
 Computer Science Engineering Student
 
-Passionate about:
+### Connect with me
 
-* Data Engineering
-* Data Analytics
-* Cloud Data Warehousing
-* SQL Development
-* Java Backend Development
-* Machine Learning
+- GitHub: https://github.com/pramodbmgowda
+- LinkedIn: *(Add your LinkedIn URL here)*
 
-⸻
+---
 
-⭐ If you found this project useful, consider giving the repository a Star on GitHub.
+## ⭐ If you found this project useful, consider giving it a Star!
