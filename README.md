@@ -12,8 +12,7 @@ The project showcases industry best practices in **Data Engineering**, **ETL Dev
 
 The project follows the **Medallion Architecture**, consisting of three layers:
 
-![Data Architecture](docs/ARCHITECTURE
-.png)
+![Data Architecture](docs/ARCHITECTURE.png)
 
 ### 🥉 Bronze Layer
 - Stores raw ERP and CRM data.
