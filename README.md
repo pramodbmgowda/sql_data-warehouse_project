@@ -116,6 +116,7 @@ The Gold Layer provides a business-ready Star Schema for reporting and dashboard
 
 ⸻
 
+
 📂 Repository Structure
 
 data-warehouse-project/
