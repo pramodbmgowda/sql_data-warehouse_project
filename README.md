@@ -243,23 +243,10 @@ sql_data-warehouse_project/
 
 ---
 
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
----
-
 # 👨‍💻 Author
 
 **Pramod B M**
 
 Computer Science Engineering Student
 
-### Connect with me
 
-- GitHub: https://github.com/pramodbmgowda
-- LinkedIn: *(Add your LinkedIn URL here)*
-
----
-
-## ⭐ If you found this project useful, consider giving it a Star!
